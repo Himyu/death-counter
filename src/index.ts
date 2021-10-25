@@ -19,7 +19,7 @@ const client = new tmi.Client({
 		secure: true
 	},
 	identity: {
-		username: 'himyu',
+		username: 'Sir_Purrcival_Bonk',
 		password: process.env.PASSWORD
 	},
 	channels: [ 'scoraluna', 'himyu' ]
