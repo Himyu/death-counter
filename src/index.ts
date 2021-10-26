@@ -10,7 +10,7 @@ const io = new Server(server);
 let connectedSockets : Socket[] = []
 
 let count = 96
-const allowedUsers = [ 'scoraluna', 'himyu' ]
+const allowedUsers = [ 'Scoraluna', 'himyu' ]
 
 const client = new tmi.Client({
 	options: { debug: true, messagesLogLevel: "info" },
