@@ -2,6 +2,12 @@ import tmi from 'tmi.js';
 import express from 'express';
 import http from 'http';
 import { Server, Socket } from "socket.io";
+import fs from 'fs';
+import path from 'path';
+
+const dataPath = path.join(__dirname, '..', 'data', 'counter.json')
+const dataFile = fs.readFileSync(dataPath)
+const data = JSON.parse(dataFile.toString()) as Array<[string, number]>
 
 const app = express()
 const server = http.createServer(app);
@@ -13,7 +19,10 @@ const allowedUsers = [ 'Scoraluna', 'himyu' ]
 const allowedTypes = [ 'mod', 'admin' ]
 
 let counter : Map<string, number> = new Map()
-counter.set("Limbo", 96)
+
+for (const [key, value] of data) {
+  counter.set(key, value)
+}
 
 let currentGame = "Limbo"
 
@@ -33,6 +42,7 @@ const client = new tmi.Client({
 client.connect().catch(console.error);
 
 client.on('message', (channel, tags, message, self) => {
+  if (self) return
   if(!message.startsWith('!')) return;
 
   if (!allowedTypes.includes(tags['user-type']) && !allowedUsers.includes(tags['display-name'] as string)) return
@@ -72,7 +82,10 @@ client.on('message', (channel, tags, message, self) => {
     }
 
     client.say(channel, `The Game was set to ${currentGame} Loons died in this game ${counter.get(currentGame)} already times`);
+
     sendCounter()
+
+    fs.promises.writeFile(dataFile, JSON.stringify(Array.from(counter.entries())))
   }
 
   if (command === '!fall') {
