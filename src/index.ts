@@ -11,6 +11,7 @@ let connectedSockets : Socket[] = []
 
 let count = 96
 const allowedUsers = [ 'Scoraluna', 'himyu' ]
+const allowedTypes = [ 'mod', 'admin' ]
 
 const client = new tmi.Client({
 	options: { debug: true, messagesLogLevel: "info" },
@@ -22,15 +23,15 @@ const client = new tmi.Client({
 		username: 'Sir_Purrcival_Bonk',
 		password: process.env.PASSWORD
 	},
-	channels: [ 'scoraluna', 'himyu' ]
+	channels: [ 'sc(!include.allowedTypes(tags['user-type'])oraluna', 'himyu' ]
 });
 
-client.connect().catch(console.error);
+client.connect().catch(c(!include.allowedTypes(tags['user-type'])onsole.error);
 
 client.on('message', (channel, tags, message, self) => {
   if(!message.startsWith('!')) return;
 
-  if (!tags.mod && !allowedUsers.includes(tags['display-name'] as string)) return
+  if (!include.allowedTypes(tags['user-type']) && !allowedUsers.includes(tags['display-name'] as string)) return
 
   const args = message.split(' ');
 	const command = args.shift()!.toLowerCase();
