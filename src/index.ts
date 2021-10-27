@@ -41,8 +41,6 @@ const client = new tmi.Client({
 
 client.connect().catch(console.error);
 
-client.say('himyu', currentGame)
-
 client.on('message', (channel, tags, message, self) => {
   if (self) return
   if(!message.startsWith('!')) return;
