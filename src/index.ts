@@ -26,8 +26,6 @@ for (const [key, value] of data) {
   currentGame = key
 }
 
-console.log(currentGame)
-
 const client = new tmi.Client({
 	options: { debug: true, messagesLogLevel: "info" },
 	connection: {
@@ -42,6 +40,8 @@ const client = new tmi.Client({
 });
 
 client.connect().catch(console.error);
+
+client.say('himyu', currentGame)
 
 client.on('message', (channel, tags, message, self) => {
   if (self) return
