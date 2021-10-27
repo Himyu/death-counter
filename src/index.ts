@@ -26,6 +26,8 @@ for (const [key, value] of data) {
   currentGame = key
 }
 
+console.log(currentGame)
+
 const client = new tmi.Client({
 	options: { debug: true, messagesLogLevel: "info" },
 	connection: {
