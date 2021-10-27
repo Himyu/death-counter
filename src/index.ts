@@ -19,12 +19,12 @@ const allowedUsers = [ 'Scoraluna', 'himyu' ]
 const allowedTypes = [ 'mod', 'admin' ]
 
 let counter : Map<string, number> = new Map()
+let currentGame = ""
 
 for (const [key, value] of data) {
   counter.set(key, value)
+  currentGame = key
 }
-
-let currentGame = "Limbo"
 
 const client = new tmi.Client({
 	options: { debug: true, messagesLogLevel: "info" },
