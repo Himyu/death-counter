@@ -11,7 +11,7 @@ const data = JSON.parse(dataFile.toString()) as Array<[string, number]>
 
 const app = express()
 const server = http.createServer(app);
-const io = new Server(server);
+const ioServer = new Server(server);
 
 let connectedSockets : Socket[] = []
 
@@ -101,7 +101,7 @@ client.on('message', (channel, tags, message, self) => {
 
 app.use(express.static('public'))
 
-io.on('connection', (socket) => {
+ioServer.on('connection', (socket) => {
   connectedSockets.push(socket)
   socket.emit('count', counter.get(currentGame))
 });
@@ -114,4 +114,5 @@ function sendCounter () {
 
 server.listen(3000, () => {
   console.log('listening on *:3000');
+  process.send('ready')
 });
