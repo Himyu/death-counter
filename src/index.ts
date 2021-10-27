@@ -81,7 +81,7 @@ client.on('message', (channel, tags, message, self) => {
       counter.set(game, 0)
     }
 
-    client.say(channel, `The Game was set to ${currentGame} Loons died in this game ${counter.get(currentGame)} already times`);
+    client.say(channel, `The Game was set to ${currentGame}, Loons died ${counter.get(currentGame)} times already in this game`);
 
     sendCounter()
 
