@@ -85,7 +85,7 @@ client.on('message', (channel, tags, message, self) => {
 
     sendCounter()
 
-    fs.promises.writeFile(dataPath, JSON.stringify(Array.from(counter.entries()), null, 4))
+    fs.promises.writeFile(dataPath, JSON.stringify(Array.from(counter), null, 4))
   }
 
   if (command === '!fall') {
