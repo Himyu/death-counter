@@ -129,6 +129,10 @@ tx2.action('fcount', (reply : any) => {
   reply({ [currentGame] : counter.get(currentGame) })
 })
 
+tx2.action('fall', (reply : any) => {
+  reply([...counter.entries()])
+})
+
 tx2.action('world', function(param : any, reply : any) {
   console.log(param.keys())
   reply({success : param})
