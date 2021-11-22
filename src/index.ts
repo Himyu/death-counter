@@ -122,16 +122,10 @@ function sendCounter () {
   connectedSockets.forEach(socket => {
     socket.emit('count', counter.get(currentGame))
   })
-  deaths.set(counter.get(currentGame))
 }
 
-const deaths = io.metric({
-  name: currentGame,
-  id: 'death-counter/current-game/deaths'
-});
-
 io.action('Current Game', (reply : any) => {
-  reply(currentGame)
+  reply({[currentGame] : counter.get(currentGame)})
 })
 
 io.action('F', () => {
