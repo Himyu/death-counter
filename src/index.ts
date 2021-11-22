@@ -4,6 +4,7 @@ import http from 'http';
 import { Server, Socket } from "socket.io";
 import fs from 'fs';
 import path from 'path';
+import tx2 from 'tx2';
 
 const dataPath = path.join(__dirname, '..', 'data', 'counter.json')
 const dataFile = fs.readFileSync(dataPath)
@@ -123,6 +124,10 @@ function sendCounter () {
     socket.emit('count', counter.get(currentGame))
   })
 }
+
+tx2.action('fcount', (reply : any) => {
+  reply({ answer : counter.get(currentGame) })
+i})
 
 server.listen(3000, () => {
   console.log('listening on *:3000');
