@@ -134,7 +134,7 @@ tx2.action('fall', (reply : any) => {
 })
 
 tx2.action('world', function(param : any, reply : any) {
-  console.log(param.keys())
+  console.log(typeof param)
   reply({success : param})
 })
 
