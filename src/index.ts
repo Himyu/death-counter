@@ -129,6 +129,10 @@ const deaths = io.metric({
   name: currentGame
 });
 
+io.action('Current Game', (reply : any) => {
+  reply(currentGame)
+})
+
 io.action('F', () => {
   counter.set(currentGame, counter.get(currentGame)!+1)
   sendCounter()
