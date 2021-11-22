@@ -124,25 +124,27 @@ function sendCounter () {
   })
 }
 
-io.action('Current Game', (reply : any) => {
+io.action('Current Game', (reply : (val ? : any) => void) => {
   reply({[currentGame] : counter.get(currentGame)})
 })
 
-io.action('F', () => {
+io.action('F', (reply : (val ? : any) => void) => {
   counter.set(currentGame, counter.get(currentGame)!+1)
   sendCounter()
+  reply()
 })
 
-io.action('Reset', (param : string, _reply : any) => {
+io.action('Reset', (param : string, reply : (val ? : any) => void) => {
   counter.set(currentGame, Number(param))
   sendCounter()
+  reply()
 })
 
-io.action('All', (reply : any) => {
+io.action('All', (reply : (val ? : any) => void) => {
   reply([...counter.entries()])
 })
 
-io.action('Set Game', function(param : string, reply : any) {
+io.action('Set Game', function(param : string, reply : (val ? : any) => void) {
   if (!counter.has(param)) {
     counter.set(param, 0)
   }
@@ -154,7 +156,7 @@ io.action('Set Game', function(param : string, reply : any) {
   fs.promises.writeFile(dataPath, JSON.stringify(Array.from(counter), null, 4))
 })
 
-io.action('Remove Game', function(param : string, reply : any) {
+io.action('Remove Game', function(param : string, reply : (val ? : any) => void) {
   counter.delete(param)
   currentGame = [...counter.keys()][counter.size - 1]
 
