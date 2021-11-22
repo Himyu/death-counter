@@ -4,7 +4,7 @@ import http from 'http';
 import { Server, Socket } from "socket.io";
 import fs from 'fs';
 import path from 'path';
-import tx2 from 'tx2';
+import io from '@pm2/io';
 
 const dataPath = path.join(__dirname, '..', 'data', 'counter.json')
 const dataFile = fs.readFileSync(dataPath)
@@ -65,7 +65,6 @@ client.on('message', (channel, tags, message, self) => {
 
   if (command === '!fcount') {
       client.say(channel, `Loons died ${counter.get(currentGame)} times, in ${currentGame}!`);
-      sendCounter()
 	}
 
   if (command === '!freset') {
@@ -123,19 +122,48 @@ function sendCounter () {
   connectedSockets.forEach(socket => {
     socket.emit('count', counter.get(currentGame))
   })
+  deaths.set(counter.get(currentGame))
 }
 
-tx2.action('fcount', (reply : any) => {
-  reply({ [currentGame] : counter.get(currentGame) })
+const deaths = io.metric({
+  name: 'Current Deaths',
+});
+
+io.action('F', () => {
+  counter.set(currentGame, counter.get(currentGame)!+1)
+  sendCounter()
 })
 
-tx2.action('fall', (reply : any) => {
+io.action('Reset', (param : string) => {
+  counter.set(currentGame, Number(param))
+  sendCounter()
+})
+
+io.action('All', (reply : any) => {
   reply([...counter.entries()])
 })
 
-tx2.action('world', function(param : any, reply : any) {
-  console.log(typeof param)
-  reply({success : param})
+io.action('Set Game', function(param : string, reply : any) {
+  if (!counter.has(param)) {
+    counter.set(param, 0)
+  }
+
+  sendCounter()
+
+  reply(`The Game was set to ${currentGame}, Loons died ${counter.get(currentGame)} times already in this game`)
+
+  fs.promises.writeFile(dataPath, JSON.stringify(Array.from(counter), null, 4))
+})
+
+io.action('Remove Game', function(param : string, reply : any) {
+  counter.delete(param)
+  currentGame = [...counter.keys()][counter.size - 1]
+
+  reply(`The Game ${param} was removed, the current game was set to ${currentGame}`);
+
+  sendCounter()
+
+  fs.promises.writeFile(dataPath, JSON.stringify(Array.from(counter), null, 4))
 })
 
 server.listen(3000, () => {
