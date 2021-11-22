@@ -125,12 +125,12 @@ function sendCounter () {
 }
 
 io.action('Current Game', (reply : (val : any) => void) => {
-  reply(`Loons died ${counter.get(currentGame)} times!`)
+  reply(`Loons died ${counter.get(currentGame)} times, in ${currentGame}!`)
 })
 
 io.action('F', (reply : (val : any) => void) => {
   counter.set(currentGame, counter.get(currentGame)!+1)
-  reply(`Loons died ${counter.get(currentGame)} times!`)
+  reply(`Loons died ${counter.get(currentGame)} times, in ${currentGame}!`)
   sendCounter()
 })
 
