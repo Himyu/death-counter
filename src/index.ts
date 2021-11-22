@@ -69,7 +69,7 @@ client.on('message', (channel, tags, message, self) => {
 
   if (command === '!freset') {
     counter.set(currentGame, Number(args[0] || "0") )
-    client.say(channel, `The counter was reset to ${counter.get(currentGame)} times`);
+    client.say(channel, `The counter was reset to ${counter.get(currentGame)} times, for ${currentGame}`);
     sendCounter()
   }
 
