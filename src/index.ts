@@ -63,7 +63,7 @@ client.on('message', (channel, tags, message, self) => {
 	}
 
   if (command === '!fcount') {
-      client.say(channel, `Loons died ${counter.get(currentGame)} times!`);
+      client.say(channel, `Loons died ${counter.get(currentGame)} times, in ${currentGame}!`);
       sendCounter()
 	}
 
@@ -114,5 +114,5 @@ function sendCounter () {
 
 server.listen(3000, () => {
   console.log('listening on *:3000');
-  process.send('ready')
+  /* process.send('ready') */
 });
