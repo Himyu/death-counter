@@ -13,12 +13,12 @@ const app = express()
 const server = http.createServer(app);
 const ioServer = new Server(server);
 
-let connectedSockets : Socket[] = []
+const connectedSockets : Socket[] = []
 
 const allowedUsers = [ 'Scoraluna', 'himyu' ]
 const allowedTypes = [ 'mod', 'admin' ]
 
-let counter : Map<string, number> = new Map()
+const counter : Map<string, number> = new Map()
 let currentGame = ""
 
 for (const [key, value] of data) {
@@ -42,16 +42,16 @@ const client = new tmi.Client({
 client.connect().catch(console.error);
 
 client.on('message', (channel, tags, message, self) => {
-  if (self) return
+  if (self && channel !== 'himyu') return
   if(!message.startsWith('!')) return;
 
-  if (!allowedTypes.includes(tags['user-type']) && !allowedUsers.includes(tags['display-name'] as string)) return
+  if (!allowedTypes.includes(tags['user-type']!) && !allowedUsers.includes(tags['display-name'] as string)) return
 
   const args = message.split(' ');
 	const command = args.shift()!.toLowerCase();
 
 	if(command === '!f') {
-    counter.set(currentGame, counter.get(currentGame)+1)
+    counter.set(currentGame, counter.get(currentGame)!+1)
     
     if (counter.get(currentGame) === 100) {
       client.say(channel, `Loons died ${counter.get(currentGame)} times! give her some love and hugs in the chat scoralHeart `);
@@ -88,8 +88,20 @@ client.on('message', (channel, tags, message, self) => {
     fs.promises.writeFile(dataPath, JSON.stringify(Array.from(counter), null, 4))
   }
 
+  if (command === '!fremovegame') {
+    const game = args.join(' ')
+    counter.delete(game)
+    currentGame = [...counter.keys()][counter.size - 1]
+
+    client.say(channel, `The Game ${game} was removed, the current game was set to ${currentGame}`);
+
+    sendCounter()
+
+    fs.promises.writeFile(dataPath, JSON.stringify(Array.from(counter), null, 4))
+  }
+
   if (command === '!fall') {
-    let msg = "Loons death counter: "
+    let msg = "Loons death counters: "
 
     for ( const [key, value] of counter.entries()) {
       msg += `${key}: ${value}! `
@@ -114,5 +126,5 @@ function sendCounter () {
 
 server.listen(3000, () => {
   console.log('listening on *:3000');
-  /* process.send('ready') */
+  process.send('ready')
 });
