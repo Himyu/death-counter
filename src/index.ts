@@ -126,11 +126,11 @@ function sendCounter () {
 }
 
 tx2.action('fcount', (reply : any) => {
-  reply({ answer : counter.get(currentGame) })
+  reply({ currentGame : counter.get(currentGame) })
 })
 
 tx2.action('world', function(param : any, reply : any) {
-  console.log(param)
+  console.log(param.keys())
   reply({success : param})
 })
 
