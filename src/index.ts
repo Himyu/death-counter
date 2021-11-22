@@ -55,9 +55,9 @@ client.on('message', (channel, tags, message, self) => {
     counter.set(currentGame, counter.get(currentGame)!+1)
     
     if (counter.get(currentGame) === 100) {
-      client.say(channel, `Loons died ${counter.get(currentGame)} times! give her some love and hugs in the chat scoralHeart `);
+      client.say(channel, `Loons died ${counter.get(currentGame)} times, in ${currentGame}! give her some love and hugs in the chat scoralHeart `);
     } else {
-      client.say(channel, `Loons died ${counter.get(currentGame)} times!`);
+      client.say(channel, `Loons died ${counter.get(currentGame)} times, in ${currentGame}!`);
     }
 
     sendCounter()
@@ -124,27 +124,27 @@ function sendCounter () {
   })
 }
 
-io.action('Current Game', (reply : (val ? : any) => void) => {
-  reply({[currentGame] : counter.get(currentGame)})
+io.action('Current Game', (reply : (val : any) => void) => {
+  reply(`Loons died ${counter.get(currentGame)} times!`)
 })
 
-io.action('F', (reply : (val ? : any) => void) => {
+io.action('F', (reply : (val : any) => void) => {
   counter.set(currentGame, counter.get(currentGame)!+1)
+  reply(`Loons died ${counter.get(currentGame)} times!`)
   sendCounter()
-  reply()
 })
 
-io.action('Reset', (param : string, reply : (val ? : any) => void) => {
+io.action('Reset', (param : string, reply : (val : any) => void) => {
   counter.set(currentGame, Number(param))
+  reply(`The counter was reset to ${counter.get(currentGame)} times, for ${currentGame}`)
   sendCounter()
-  reply()
 })
 
-io.action('All', (reply : (val ? : any) => void) => {
+io.action('All', (reply : (val : any) => void) => {
   reply([...counter.entries()])
 })
 
-io.action('Set Game', function(param : string, reply : (val ? : any) => void) {
+io.action('Set Game', function(param : string, reply : (val : any) => void) {
   if (!counter.has(param)) {
     counter.set(param, 0)
   }
@@ -156,7 +156,7 @@ io.action('Set Game', function(param : string, reply : (val ? : any) => void) {
   fs.promises.writeFile(dataPath, JSON.stringify(Array.from(counter), null, 4))
 })
 
-io.action('Remove Game', function(param : string, reply : (val ? : any) => void) {
+io.action('Remove Game', function(param : string, reply : (val : any) => void) {
   counter.delete(param)
   currentGame = [...counter.keys()][counter.size - 1]
 
