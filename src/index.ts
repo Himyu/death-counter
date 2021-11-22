@@ -133,7 +133,7 @@ io.action('F', () => {
   sendCounter()
 })
 
-io.action('Reset', (param : string) => {
+io.action('Reset', (param : string, _reply : any) => {
   counter.set(currentGame, Number(param))
   sendCounter()
 })
