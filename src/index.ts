@@ -126,7 +126,7 @@ function sendCounter () {
 }
 
 tx2.action('fcount', (reply : any) => {
-  reply({ currentGame : counter.get(currentGame) })
+  reply({ [currentGame] : counter.get(currentGame) })
 })
 
 tx2.action('world', function(param : any, reply : any) {
