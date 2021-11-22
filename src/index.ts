@@ -127,7 +127,7 @@ function sendCounter () {
 
 tx2.action('fcount', (reply : any) => {
   reply({ answer : counter.get(currentGame) })
-i})
+})
 
 server.listen(3000, () => {
   console.log('listening on *:3000');
