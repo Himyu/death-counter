@@ -129,6 +129,11 @@ tx2.action('fcount', (reply : any) => {
   reply({ answer : counter.get(currentGame) })
 })
 
+tx2.action('world', function(param : any, reply : any) {
+  console.log(param)
+  reply({success : param})
+})
+
 server.listen(3000, () => {
   console.log('listening on *:3000');
   process.send('ready')
