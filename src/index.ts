@@ -126,7 +126,8 @@ function sendCounter () {
 }
 
 const deaths = io.metric({
-  name: currentGame
+  name: currentGame,
+  id: 'death-counter/current-game/deaths'
 });
 
 io.action('Current Game', (reply : any) => {
