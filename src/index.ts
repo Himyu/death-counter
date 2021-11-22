@@ -126,7 +126,7 @@ function sendCounter () {
 }
 
 const deaths = io.metric({
-  name: 'Current Deaths',
+  name: currentGame
 });
 
 io.action('F', () => {
