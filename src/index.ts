@@ -37,13 +37,13 @@ const client = new tmi.Client({
 		username: 'Sir_Purrcival_Bonk',
 		password: process.env.PASSWORD
 	},
-	channels: [ 'scoraluna', 'himyu' ]
+	channels: [ 'scoraluna' ]
 });
 
 client.connect().catch(console.error);
 
 client.on('message', (channel, tags, message, self) => {
-  if (self && channel !== 'himyu') return
+  if (self) return
   if(!message.startsWith('!')) return;
 
   if (!allowedTypes.includes(tags['user-type']!) && !allowedUsers.includes(tags['display-name'] as string)) return
