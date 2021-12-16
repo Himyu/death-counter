@@ -169,5 +169,4 @@ io.action('Remove Game', function(param : string, reply : (val : any) => void) {
 
 server.listen(3000, () => {
   console.log('listening on *:3000');
-  process.send('ready')
 });
