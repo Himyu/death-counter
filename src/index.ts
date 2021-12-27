@@ -37,7 +37,7 @@ const client = new tmi.Client({
 		username: 'Sir_Purrcival_Bonk',
 		password: process.env.PASSWORD
 	},
-	channels: [ 'scoraluna' ]
+	channels: [ 'scoraluna', 'himyu' ]
 });
 
 client.connect().catch(console.error);
@@ -112,7 +112,7 @@ client.on('message', (channel, tags, message, self) => {
 
   if (command === '!d20') {
     const rndInt = randomIntFromInterval(1, 20)
-    const msg = `@${tags.username} <ou rolled a ${rndInt}`
+    const msg = `@${tags.username} you rolled a ${rndInt}`
     client.say(channel, msg);
   }
 });
