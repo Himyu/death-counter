@@ -46,10 +46,16 @@ client.on('message', (channel, tags, message, self) => {
   if (self) return
   if(!message.startsWith('!')) return;
 
-  if (!allowedTypes.includes(tags['user-type']!) && !allowedUsers.includes(tags['display-name'] as string)) return
-
   const args = message.split(' ');
 	const command = args.shift()!.toLowerCase();
+
+  if (command === '!d20') {
+    const rndInt = randomIntFromInterval(1, 20)
+    const msg = `@${tags.username} you rolled a ${rndInt}`
+    client.say(channel, msg);
+  }
+
+  if (!allowedTypes.includes(tags['user-type']!) && !allowedUsers.includes(tags['display-name'] as string)) return
 
 	if(command === '!f') {
     counter.set(currentGame, counter.get(currentGame)!+1)
@@ -107,12 +113,6 @@ client.on('message', (channel, tags, message, self) => {
       msg += `${key}: ${value}! `
     }
 
-    client.say(channel, msg);
-  }
-
-  if (command === '!d20') {
-    const rndInt = randomIntFromInterval(1, 20)
-    const msg = `@${tags.username} you rolled a ${rndInt}`
     client.say(channel, msg);
   }
 });
