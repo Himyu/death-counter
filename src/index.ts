@@ -50,8 +50,13 @@ client.on('message', (channel, tags, message, self) => {
 	const command = args.shift()!.toLowerCase();
 
   if (command === '!d20') {
-    const rndInt = randomIntFromInterval(1, 20)
-    const msg = `@${tags.username} you rolled a ${rndInt}`
+    let num
+    if (args[0] === 'rig' && typeof Number(args[1]) === 'number') {
+      num = args[1]
+    } else {
+      num = randomIntFromInterval(1, 20)
+    }
+    const msg = `@${tags.username} you rolled a ${num}`
     client.say(channel, msg);
   }
 
