@@ -37,7 +37,7 @@ const client = new tmi.Client({
 		username: 'Sir_Purrcival_Bonk',
 		password: process.env.PASSWORD
 	},
-	channels: [ 'scoraluna', 'himyu' ]
+	channels: [ 'scoraluna' ]
 });
 
 client.connect().catch(console.error);
